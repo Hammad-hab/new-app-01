@@ -1,0 +1,26 @@
+.hover {
+    position: absolute;
+    z-index: 2;
+    width: max-content;
+  }
+
+.page {
+    background-color: white;
+    padding: 100px;
+    padding-top: 10px;
+    margin-top: 50px;
+    margin-left: 400px;
+    width: 50%;
+    height: 50%;
+    opacity: 0.1;
+    color: black;
+    overflow-y: scroll;
+}
+
+.page::first-letter {
+    font-size: 100px;
+}
+
+.page::content {
+    margin-bottom: 10px;
+}

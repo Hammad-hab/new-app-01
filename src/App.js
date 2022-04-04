@@ -10,7 +10,6 @@ function App() {
     camera = _return.Camera(),
     renderer = _return.Renderer(),
     Loop = _return.AnimationLoop()
-    // Controls = new OrbitControls(camera, renderer.domElement)
   Objects(scene, camera)
 
   Loop(function () {

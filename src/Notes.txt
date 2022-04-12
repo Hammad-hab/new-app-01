@@ -1,0 +1,15 @@
+How to position Cube Map Array
+
+[
+      posx, negx, 
+      posy, negy,
+      posz, negz,
+]
+
+
+Sending Attributes as arguments 
+
+function  Component (props) Or ({...[attribute Name]}) {
+    ...
+    props.[attribute Name]
+}

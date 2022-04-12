@@ -1,8 +1,12 @@
-const Collison = (x, y, x2, y2) => {return (Math.sqrt(Math.pow((x - x2), 2) + Math.pow((y- y2), 2))) }
-
+const Collison = (x, x2, y, y2) => {
+    var DistX = x - x2
+    var DistY = y - y2
+    return Math.sqrt(Math.pow(DistX, 2) + Math.pow(DistY, 2))
+}
 
 const Helpers = {
-    Collison
+    Collison,
+    // Events
 }
 
 export default Helpers

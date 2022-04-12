@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Faster+One&display=swap');
+
+.hover {
+    position: fixed;
+    z-index: 200;
+}
+:root {
+    --HoverPos : fixed;
+    --HoverIndex: 200;
+    /* --BOTTOMFUL  */
+}
+.hunPix {
+    height: 100px;
+    width: 100px;
+}
+
+.hide {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+
+.alignLeftFull {
+    margin-left: 94%;
+}
+
+#RotationArea {
+    background-color: grey;
+    opacity: 0.5;
+    position: var(--HoverPos);
+    z-index: var(--HoverIndex);
+    margin-left: 82.5%;
+    margin-top: 40%;
+    padding: 150px;
+}
+
+.bgTrasparentGrey {
+    background-color: grey;
+    opacity: 0.5;
+}
+
+.prominent {
+    font-weight: bolder;
+    color: black;
+    opacity: 100;
+    text-align: center;
+    font-size: 120px;
+}
+
+.centre {
+    text-align: center;
+}
+
+.left {
+    float: left
+}
+
+.right {
+    float: right;
+}
+
+.R_TO_H:hover {
+    animation-name: ChangeColor;
+    animation-duration: 5s;
+}
+
+@keyframes ChangeColor {
+    from {color: black}
+    to {color : rgba(0, 0, 0, 0.487)}
+}
+
+
+.title {
+    text-align: center;
+    font-family: "Faster One";
+    color: black;
+    opacity: 100;
+    background: transparent;
+    font-size: 150px;
+}
+
+.button {
+    background-color: black;
+    color: white;
+    padding: 20px;
+    border: none;
+    box-shadow: 0 9px #999;
+    border-radius: 10px;
+    margin-left: 45%;
+    margin-top: 100px;
+    width: 200px;
+}
+
+.button:active {
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+.button:hover::content::after {
+    content: ">>";
+    color: red;
+}

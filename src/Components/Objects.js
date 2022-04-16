@@ -1,127 +1,65 @@
 import * as THREE from 'three'
-import BuildingTexture from './Skins/BuildingFront.webp'
-import RoadTexture from './Skins/RoadSkin.jpeg'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import * as CANNON from 'cannon-es'
+import Cannon from './CANNONWorld'
 localStorage.setItem('Loaded?', 'no')
-var AccelrationSpeed = 0
-var keyDown = false
 var Step = 1 / 60
-const world = new CANNON.World({
-    gravity: new CANNON.Vec3(0, -10, 0)
-})
 const THE_CONSTANT_OF_STRIGHTNESS_NEG = -4.71239
 const THE_CONSTANT_OF_STRIGHTNESS_POS = 4.71239
-
-var Event;
 function Objects(scene, camera) {
-    var Light = new THREE.DirectionalLight('white', 10)
-    scene.add(Light)
-    camera.rotation.y = THE_CONSTANT_OF_STRIGHTNESS_NEG
+    camera.position.set(0, 10, -15)
+    var DirectionalLight = new THREE.DirectionalLight("white", 5)
+    var DirectionalLightHelper = new THREE.DirectionalLightHelper(DirectionalLight)
+    scene.add(DirectionalLight, DirectionalLightHelper)
+    const Loaders = {
+        TL: new THREE.TextureLoader,
+        FL: new FBXLoader,
+        GL: new GLTFLoader
+    }
+    const Ground_Geometry = new THREE.BoxGeometry(150,1, 150)
+    const Wall_Geometry = new THREE.BoxGeometry(150, 150,1)
+    const Ground_Material = new THREE.MeshBasicMaterial({
+        side: THREE.DoubleSide,
+        map: Loaders.TL.load(require('./Texture/Plank.jpg'))
+    })
+    DirectionalLight.position.x += 100
+    DirectionalLight.position.y += 100
+    const Wall_Material = new THREE.MeshBasicMaterial({
+        side: THREE.DoubleSide,
+        map: Loaders.TL.load(require('./Texture/Walls.jpg'))
+    })
+    const Ground = new THREE.Mesh(Ground_Geometry, Ground_Material)
+    const Roof = new THREE.Mesh(Ground_Geometry, Ground_Material)
+    const WALL_RIGHT = new THREE.Mesh(Wall_Geometry, Wall_Material)
+    const WALL_LEFT = new THREE.Mesh(Wall_Geometry, Wall_Material)
+    const WALL_BACK = new THREE.Mesh(Wall_Geometry, Wall_Material)
+    // const WALL_LEFT = new THREE.Mesh(Wall_Geometry, Wall_Material)
+    WALL_RIGHT.position.y += 50
+    WALL_LEFT.position.y += 50
+    WALL_BACK.position.y += 50
+    WALL_BACK.rotation.y += THE_CONSTANT_OF_STRIGHTNESS_NEG
+    Roof.position.y += 125
 
-    // adding the Road
-    var ROAD_GEO = new THREE.BoxGeometry(1000, 1, 50)
-    var ROAD_MAT = new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load(RoadTexture),side: THREE.DoubleSide})
-    var ROAD = new THREE.Mesh(ROAD_GEO, ROAD_MAT)
-    ROAD.position.z += 25
-    ROAD.position.y -= 5
-    scene.add(ROAD)
-    // Initializing Physics
-     
-    var ROADphysics = new CANNON.Body({
-     shape: new CANNON.Box(new CANNON.Vec3(1000, 1, 50)),
-     type: CANNON.Body.STATIC,
-    })
-    world.addBody(ROADphysics)
-    var CarPhysics = new CANNON.Body({
-        shape: new CANNON.Box(new CANNON.Vec3(0.01,0.01, 0.01)),
-        mass: 10,
-        position: new CANNON.Vec3(1, 50, 0)
-        
-    })
-    world.addBody(CarPhysics)
-    // Adding the Car
-    var Loader = new FBXLoader()   
-    Loader.load(require('./Models/Cool.fbx'), (fbx) => {
-        fbx.position.y -= 0.5
-        fbx.rotation.y = THE_CONSTANT_OF_STRIGHTNESS_NEG
-        fbx.position.z += 25
-        camera.position.z += 25
-        scene.add(fbx)
-        var KeyControler = (e) => {
-            if (localStorage.getItem('Pause') === 'No') {
-            switch (e.key) {
-            case "w":
-            
-            var Vec = new THREE.Vector3
-            fbx.getWorldDirection(Vec)
-            fbx.position.addScaledVector(Vec, (1 * AccelrationSpeed))
-            CarPhysics.velocity = new CANNON.Vec3(1,1,1)
-            
-            AccelrationSpeed += 0.1
-            keyDown = true
-            break
-            case "s":
-            var Vec = new THREE.Vector3
-            fbx.getWorldDirection(Vec)
-            fbx.position.addScaledVector(Vec, (-1 * AccelrationSpeed))
-            CarPhysics.position.addScaledVector(Vec, (-1 * AccelrationSpeed))
-            // camera.position.addScaledVector(Vec, (-1 * AccelrationSpeed))
-            AccelrationSpeed += 0.1
-            keyDown = true
-            break
-            default:
-            break
-            }
-        } else return false
-        }
-       
-        fbx.scale.set(0.01, 0.01, 0.01)
-   
-        document.addEventListener('keydown', KeyControler)
-        document.getElementById('RotationArea').addEventListener('mousemove', (x) => {
-            if (localStorage.getItem('Pause') === 'No') fbx.rotation.y = (x.clientX * 0.1); CarPhysics.rotation.y = (x.clientX * 0.1);
-        })
-        document.addEventListener('keyup', (e) => { keyDown = false; Event = e.key; CarPhysics.velocity = new CANNON.Vec3(0,0,0)})
-        setInterval(() => {
-            if (AccelrationSpeed >= 0 && keyDown === false) {
-                if (Event === "w") {
-                var Vec = new THREE.Vector3
-                fbx.getWorldDirection(Vec)
-                    fbx.position.addScaledVector(Vec, (1 * AccelrationSpeed))
-                    // CarPhysics.position.addScaledVector(Vec, (1 * AccelrationSpeed))
-                    // camera.position.addScaledVector(Vec, (1 * AccelrationSpeed))
-                    console.log(
-                        CarPhysics.position.addScaledVector(Vec, (1 * AccelrationSpeed))
-                    )
-                AccelrationSpeed -= 0.1
-              } 
-              else {
-                var Vec = new THREE.Vector3
-                fbx.getWorldDirection(Vec)
-                fbx.position.addScaledVector(Vec, (-1 * AccelrationSpeed))
-                CarPhysics.position.addScaledVector(Vec, (-1 * AccelrationSpeed))
-                // camera.position.addScaledVector(Vec, (-1 * AccelrationSpeed))
-                AccelrationSpeed -= 0.1
-              }
-            }
-           
-        }, 100)
-          function Func() {
-            requestAnimationFrame(Func)
-            world.step(Step)
-            ROAD.position.copy(ROADphysics.position)
-            ROAD.quaternion.copy(ROADphysics.quaternion)
-            fbx.position.copy(CarPhysics.position)
-            fbx.quaternion.copy(CarPhysics.quaternion)
-            // if (keyDown === false) {
+    WALL_LEFT.position.z -= 75
+    WALL_RIGHT.position.z += 75
 
-            // }
-           }
-       Func()
-        
-    })
-  
+    WALL_BACK.position.x -= 75
+    Ground.rotation.x = THE_CONSTANT_OF_STRIGHTNESS_NEG
+
+    scene.add(Ground, Roof, WALL_RIGHT, WALL_LEFT, WALL_BACK)
+    Cannon.WORLD.addBody(Cannon.BODIES.GROUND.BODY)
+    function Animation() {
+        requestAnimationFrame(Animation)
+        Ground.position.copy(Cannon.BODIES.GROUND.BODY.position)
+        Ground.quaternion.copy(Cannon.BODIES.GROUND.BODY.quaternion)
+    }
+    Animation()
+
+    Loaders.GL.load(require('./Models/Sofa.glb'), (glb) => {scene.add(glb.scene)})
+    Loaders.GL.load(require('./Models/Table.glb'), (glb) => {scene.add(glb.scene)})
+    Loaders.GL.load(require('./Models/Lamp.glb'), (glb) => {scene.add(glb.scene)})
+    
 }
 
 export default Objects

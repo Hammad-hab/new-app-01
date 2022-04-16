@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Faster+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap');
 
 .hover {
     position: fixed;
@@ -75,7 +75,7 @@
 
 .title {
     text-align: center;
-    font-family: "Faster One";
+    font-family: "Gamja Flower";
     color: black;
     opacity: 100;
     background: transparent;

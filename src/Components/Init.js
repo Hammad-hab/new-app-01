@@ -1,11 +1,11 @@
 import * as THREE from 'three'
-import negx from './Texture/negx.jpg'
-import negy from './Texture/negy.jpg'
-import negz from './Texture/negz.jpg'
+// import negx from './Texture/negx.jpg'
+// import negy from './Texture/negy.jpg'
+// import negz from './Texture/negz.jpg'
 
-import posx from './Texture/posx.jpg'
-import posy from './Texture/posy.jpg'
-import posz from './Texture/posz.jpg'
+// import posx from './Texture/posx.jpg'
+// import posy from './Texture/posy.jpg'
+// import posz from './Texture/posz.jpg'
 
 var append = false
 function Initalize() {
@@ -15,13 +15,13 @@ function Initalize() {
     camera.position.x = 38
     camera.rotation.y = 65
     camera.position.y = 6
-  scene.background  = new THREE.CubeTextureLoader().load([
-      posx, negx, 
-      posy, negy,
-      posz, negz
-  ])
+//   scene.background  = new THREE.CubeTextureLoader().load([
+//       posx, negx, 
+//       posy, negy,
+//       posz, negz
+//   ])
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     function Append (){
     if (append === false) {

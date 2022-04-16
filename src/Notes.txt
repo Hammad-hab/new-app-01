@@ -13,3 +13,6 @@ function  Component (props) Or ({...[attribute Name]}) {
     ...
     props.[attribute Name]
 }
+
+Connecting the vertexShader with threejs
+gl_Position = projectionMatrix *  viewMatrix  * vec4( newPosition, 1.0 );

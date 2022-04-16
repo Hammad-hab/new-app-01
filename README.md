@@ -1,6 +1,3 @@
-# Hammad's Racing game
+# The Vintage world
 
-> CONTROLS 
-
-`USE "w" to move forward`
-`MOVE your mouse alog the X axis   <-X->   to rotate the camera`
+A preveiw & an `Experiment` showing a vintage house
